@@ -1,0 +1,13 @@
+###############################
+# MY ALIASES
+###############################
+
+# COMMON
+alias ll="ls -lh"
+alias la="ls -la"
+alias lla="ls -llah"
+alias lltr="ls -ltrh"
+alias lltra="ls -ltrha"
+
+
+
