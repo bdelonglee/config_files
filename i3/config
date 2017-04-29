@@ -43,7 +43,7 @@ floating_modifier $mod
 
 # Basic tile creation
 bindsym $mod+Return exec $term;focus
-bindsym $mod+Shift+Return exec $term -e tmux
+bindsym $mod+Shift+Return exec $term -e tmux -2
 
 ###########################################################################
 ####################    KEYBOARD and MOUSE    #############################
@@ -424,7 +424,7 @@ exec ~/.config/i3/start-conkys.sh
 #bindsym control+mod1+f exec firefox;workspace 1; focus
 bindsym $mod+F1 exec firefox;workspace $ws1;focus
 bindsym $mod+F2 exec konsole --hide-menubar; workspace $ws2;focus
-bindsym $mod+F3 exec $term -e tmux; workspace $ws3;focus
+bindsym $mod+F3 exec $term -e tmux -2; workspace $ws3;focus
 bindsym $mod+F4 exec $term -e ranger; workspace $ws3;focus
 bindsym $mod+F5 exec dolphin; workspace $ws3;focus
 bindsym $mod+F12 exec spotify;workspace $ws10;focus
@@ -484,7 +484,7 @@ bindsym XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer
 #####################    SCRATCHPAD    ####################################
 ###########################################################################
 
-exec --no-startup-id $term --name=dropdown -e tmux
+exec --no-startup-id $term --name=dropdown -e tmux -2
 for_window [instance="dropdown"] floating enable;
 for_window [instance="dropdown"] move scratchpad; [instance="dropdown"] scratchpad show; move scratchpad
 bindsym $mod+u      [instance="dropdown"] scratchpad show      
