@@ -1,34 +1,47 @@
+" ###################################################
+" #################   POWERLINE   ###################
+" ###################################################
 
+    " See Runtime Path Section
+    let g:airline_powerline_fonts = 1
+ 
+    " Always show statusline
+    set laststatus=2   
 
-" Enable powerline symbols
-let g:airline_powerline_fonts = 1
+    " Use 256 colours (Use this setting only if your terminal supports 256 colours)
+    set t_Co=256     
+
+" ###################################################
+" ##################   AIRLINE   ####################
+" ###################################################
 
     " vim-airline {
-        " Set configuration options for the statusline plugin vim-airline.
-        " Use the powerline theme and optionally enable powerline symbols.
-        " To use the symbols , , , , , , and .in the statusline
-        " segments add the following to your .vimrc.before.local file:
-        "   let g:airline_powerline_fonts=1
-        " If the previous symbols do not render for you then install a
-        " powerline enabled font.
+    " Set configuration options for the statusline plugin vim-airline.
+    " Use the powerline theme and optionally enable powerline symbols.
+    " To use the symbols , , , , , , and .in the statusline
+    " segments add the following to your .vimrc.before.local file:
+    "   let g:airline_powerline_fonts=1
+    " If the previous symbols do not render for you then install a
+    " powerline enabled font.
+    
+    " See `:echo g:airline_theme_map` for some more choices
+    " Default in terminal vim is 'dark'
+    
+    " if isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
+    "     if !exists('g:airline_theme')
+    " 	let g:airline_theme = 'powerlineish'
+    "     endif
+    "     if !exists('g:airline_powerline_fonts')
+    " 	" Use the default set of separators with a few customizations
+    " 	let g:airline_left_sep='›'  " Slightly fancier than '>'
+    " 	let g:airline_right_sep='‹' " Slightly fancier than '<'
+    "     endif
+    " endif
 
-        " See `:echo g:airline_theme_map` for some more choices
-        " Default in terminal vim is 'dark'
-        if isdirectory(expand("~/.vim/bundle/vim-airline-themes/"))
-        "if isdirectory(expand("~/.local/lib/python2.7/site-packages/powerline/config_files/colorschemes/vim"))
-            if !exists('g:airline_theme')
-                let g:airline_theme = 'powerlineish'
-            endif
-            if !exists('g:airline_powerline_fonts')
-                " Use the default set of separators with a few customizations
-                let g:airline_left_sep='›'  " Slightly fancier than '>'
-                let g:airline_right_sep='‹' " Slightly fancier than '<'
-            endif
-        endif
-    " }
-" ########################################
-" ############## VUNDLE ##################
-" ########################################
+
+" ###################################################
+" ##################   VUNDLE   #####################
+" ###################################################
 
     " vundle pre-requis
     set nocompatible              " required
@@ -39,89 +52,47 @@ let g:airline_powerline_fonts = 1
     call vundle#begin()
 
     " alternatively, pass a path where Vundle should install plugins
-    "call vundle#begin('~/some/path/here')
+    " call vundle#begin('~/some/path/here')
 
     " let Vundle manage Vundle, required
     Plugin 'gmarik/Vundle.vim'
 
-    " status bar that rocks
-    "Plugin 'bling/vim-airline'
-    Plugin 'easymotion/vim-easymotion'
-    " Plugin 'tmhedberg/SimpylFold'
-    "Plugin 'vim-scripts/indentpython.vim'
-    "Bundle 'Valloric/YouCompleteMe'
-    "Bundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
-    Bundle 'christoomey/vim-tmux-navigator'
-    "call vam#ActivateAddons(['powerline'])
-    Plugin 'vim-airline/vim-airline'
-    Plugin 'vim-airline/vim-airline-themes'
+    " If no Powerline
+    " Plugin 'bling/vim-airline'
+    " Plugin 'vim-airline/vim-airline'
+    " Plugin 'vim-airline/vim-airline-themes'
+
+    Bundle 'christoomey/vim-tmux-navigator' 
+    Bundle 'christoomey/vim-sort-motion'    
+    " gs2j (2 lines)  gsip (in paragraph) gsii (indent) gsi( within parenthesis  
+    
+    Plugin 'easymotion/vim-easymotion'      "\s \w 
+    Plugin 'tpope/vim-surround'     " cs]' (replace ] par ') cs'<q>  cst'  (t=tag)  ysiw]  cs]{   cs]}   yss)  (sentence) ds)
+    Plugin 'tpope/vim-repeat'       " works with surround
+    Plugin 'tpope/vim-commentary'   " gcc (1 line) gcap (a paragraph) gc2j (2lines) :7,17Commentary  :g/TODO/Commentary
+    Plugin 'kien/ctrlp.vim'
+
     call vundle#end()            " required
     filetype plugin indent on    " required
 
-
-" ########################################
-" ############# POWERLINE ################
-" ########################################
-
-    " python from powerline.vim import setup as powerline_setup
-    " python powerline_setup()
-
-    "python del powerline_setup
-
-
-" ########################################
-" ############ RUNTIME PATH ##############
-" ########################################
+" ###################################################
+" ###############   RUNTIME PATH   ##################
+" ###################################################
 
     set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim/
     set rtp+=~/.fzf
 
+" ###################################################
+" ##################   OPTIONS  #####################
+" ###################################################
 
-" ########################################
-" ############## BINDING #################
-" ########################################
-
-    " TMUX: if no vim-tmux-navigator, do the same in Vim only
-    " split navigations
-    "nnoremap <C-J> <C-W><C-J>
-    "nnoremap <C-K> <C-W><C-K>
-    "nnoremap <C-L> <C-W><C-L>
-    "nnoremap <C-H> <C-W><C-H>
-
-    " Search mappings: These will make it so that going to the next one in a
-    " search will center on the line it's found in.
-    map N Nzz
-    map n nzz
-
-    " Edit vimrc \ev
-    nnoremap <silent> <Leader>ev :tabnew<CR>:e ~/.vimrc<CR>
-
-    " Edit gvimrc \gv
-    nnoremap <silent> <Leader>gv :tabnew<CR>:e ~/.gvimrc<CR>
-
-    " Toggle Numbers: Relative / Abs
-    nnoremap <C-n> :call NumberToggle()<cr>
-    
-    " Buffers: Next, Previous, Delete
-    map gn :bn<cr>
-    map gp :bp<cr>
-    map gd :bd<cr> 
-
-
-" ########################################
-" ############## OPTIONS #################
-" ########################################
+    " Enable mouse control
+    set mouse=a
 
     syntax enable
 
     set number
     set relativenumber
-
-    " Always show statusline
-    set laststatus=2
-
-    " Use 256 colours (Use this setting only if your terminal supports 256 colours)
-    set t_Co=256
 
     "Open new split panes to right and bottom, which feels more natural than Vim’s default:
     set splitbelow
@@ -161,14 +132,13 @@ let g:airline_powerline_fonts = 1
     " Allow backspacing over autoindent, line breaks and start of insert action
     set backspace=indent,eol,start
 
-
     " Instead of failing a command because of unsaved changes, instead raise a
     " dialogue asking if you wish to save changed files.
     set confirm
 
     " Set the command window height to 2 lines, to avoid many cases of having to
     " "press <Enter> to continue"
-    set cmdheight=2
+    set cmdheight=1
 
     " Cursorline Settings
     set cursorline
@@ -177,10 +147,69 @@ let g:airline_powerline_fonts = 1
     autocmd InsertLeave * :highlight CursorLine cterm=bold ctermbg=234 ctermfg=NONE term=bold
     autocmd InsertEnter * :highlight CursorLine cterm=NONE ctermbg=52 ctermfg=NONE
 
+" ###################################################
+" ################   BINDINGS   #####################
+" ###################################################
 
-" ########################################
-" ############# AUTO-CMDs ################
-" ########################################
+
+" #################   Easy Motion   #################
+
+    map <Leader> <Plug>(easymotion-prefix)
+    
+    " <Leader>f{char} to move to {char}
+    map  <Leader>f <Plug>(easymotion-bd-f)
+    nmap <Leader>f <Plug>(easymotion-overwin-f)
+    
+    " s{char}{char} to move to {char}{char}
+    nmap s <Plug>(easymotion-overwin-f2)
+    
+    " Move to line
+    map <Leader>L <Plug>(easymotion-bd-jk)
+    nmap <Leader>L <Plug>(easymotion-overwin-line)
+    
+    " Move to word
+    map  <Leader>w <Plug>(easymotion-bd-w)
+    nmap <Leader>w <Plug>(easymotion-overwin-w)
+
+" #################   Tmux    #######################
+
+    " TMUX: if no vim-tmux-navigator, do the same in Vim only
+    " split navigations
+    "nnoremap <C-J> <C-W><C-J>
+    "nnoremap <C-K> <C-W><C-K>
+    "nnoremap <C-L> <C-W><C-L>
+    "nnoremap <C-H> <C-W><C-H>
+
+" #################   Others   ######################
+
+    " Search mappings: These will make it so that going to the next one in a
+    " search will center on the line it's found in.
+    map N Nzz
+    map n nzz
+
+    " Edit vimrc \ev
+    nnoremap <silent> <Leader>ev :tabnew<CR>:e ~/.vimrc<CR>
+
+    " Edit gvimrc \gv
+    nnoremap <silent> <Leader>gv :tabnew<CR>:e ~/.gvimrc<CR>
+
+    " Toggle Numbers: Relative / Abs
+    nnoremap <C-n> :call NumberToggle()<cr>
+    
+    " Buffers: Next, Previous, Delete
+    map gn :bn<cr>
+    map gp :bp<cr>
+    map gd :bd<cr> 
+
+    " Execute Mardown (Grip) preview (Grip is a GitHub markdown flavour)
+    " nnoremap <C-m> :!grip -b %<cr>
+
+    " switch higlight no matter the previous state
+    noremap <F4> :set hlsearch! hlsearch?<cr>
+
+" ###################################################
+" ################   AUTO-CMDs   ####################
+" ###################################################
 
     " Works only in GVim ?
     au FocusLost * :set number
@@ -194,10 +223,9 @@ let g:airline_powerline_fonts = 1
     autocmd InsertLeave * :set number
     autocmd InsertLeave * :set relativenumber
 
-
-" ########################################
-" ############# FUNCTIONS ################
-" ########################################
+" ###################################################
+" ################   FUNCTIONS   ####################
+" ###################################################
 
     " Toggle Numbers: Relative / Abs
     function! NumberToggle()
@@ -208,7 +236,6 @@ let g:airline_powerline_fonts = 1
         set relativenumber
       endif
     endfunc
-
 
     " Auto reload vimrc on change"
     augroup myvimrc
@@ -225,12 +252,3 @@ let g:airline_powerline_fonts = 1
         au InsertEnter * :set listchars-=trail:⌴
         au InsertLeave * :set listchars+=trail:⌴
     augroup END
-
-
-
-
-
-
-
-
-
