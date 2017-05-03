@@ -38,7 +38,6 @@
     "     endif
     " endif
 
-
 " ###################################################
 " ##################   VUNDLE   #####################
 " ###################################################
@@ -61,16 +60,27 @@
     " Plugin 'bling/vim-airline'
     " Plugin 'vim-airline/vim-airline'
     " Plugin 'vim-airline/vim-airline-themes'
+    
+    Bundle 'godlygeek/tabular'
 
     Bundle 'christoomey/vim-tmux-navigator' 
     Bundle 'christoomey/vim-sort-motion'    
     " gs2j (2 lines)  gsip (in paragraph) gsii (indent) gsi( within parenthesis  
     
-    Plugin 'easymotion/vim-easymotion'      "\s \w 
-    Plugin 'tpope/vim-surround'     " cs]' (replace ] par ') cs'<q>  cst'  (t=tag)  ysiw]  cs]{   cs]}   yss)  (sentence) ds)
-    Plugin 'tpope/vim-repeat'       " works with surround
-    Plugin 'tpope/vim-commentary'   " gcc (1 line) gcap (a paragraph) gc2j (2lines) :7,17Commentary  :g/TODO/Commentary
+    Plugin 'easymotion/vim-easymotion'      
+    "\s \w \L
+
+    Plugin 'tpope/vim-surround'    
+    " cs]' (replace ] par ') cs'<q>  cst'  (t=tag)  ysiw]  cs]{   cs]}   yss)  (sentence) ds)
+
+    Plugin 'tpope/vim-repeat'       
+    " works with surround
+
+    Plugin 'tpope/vim-commentary'   
+    " gcc (1 line) gcap (a paragraph) gc2j (2lines) :7,17Commentary  :g/TODO/Commentary
+
     Plugin 'kien/ctrlp.vim'
+    " Ctrl+p  
 
     call vundle#end()            " required
     filetype plugin indent on    " required
@@ -86,13 +96,29 @@
 " ##################   OPTIONS  #####################
 " ###################################################
 
+    " keep unwritten buffer without being forced to write
+    set hidden
+
+    " allow backspacing over everything in insert mode
+    set backspace=indent,eol,start
+
+    " set show matching parenthesis
+    set showmatch
+
     " Enable mouse control
     set mouse=a
 
     syntax enable
 
+	" Use the same symbols as TextMate for tabstops and EOLs
+	set listchars=tab:▸\ ,eol:¬,trail:.
+
+    " absolute and relative numbers. See Auto-Cmds section as well
     set number
     set relativenumber
+
+    " number of lines to see above and below the cursor
+    :set scrolloff=8
 
     "Open new split panes to right and bottom, which feels more natural than Vim’s default:
     set splitbelow
@@ -129,12 +155,24 @@
     set ignorecase
     set smartcase
 
+    " show search matches as you type
+    set incsearch
+
     " Allow backspacing over autoindent, line breaks and start of insert action
     set backspace=indent,eol,start
 
     " Instead of failing a command because of unsaved changes, instead raise a
     " dialogue asking if you wish to save changed files.
     set confirm
+
+    " remember more command
+    set history=1000
+
+    " more undo levels
+    set undolevels=1000
+
+    " ignore some files when opening
+    set wildignore=*.swp,*.bak,*.pyc,*.class
 
     " Set the command window height to 2 lines, to avoid many cases of having to
     " "press <Enter> to continue"
@@ -180,7 +218,20 @@
     "nnoremap <C-L> <C-W><C-L>
     "nnoremap <C-H> <C-W><C-H>
 
+" #################   Tabularize   ##################
+
+    let mapleader=','
+    if exists(":Tabularize")
+      nmap <Leader>a= :Tabularize /=<CR>
+      vmap <Leader>a= :Tabularize /=<CR>
+      nmap <Leader>a: :Tabularize /:\zs<CR>
+      vmap <Leader>a: :Tabularize /:\zs<CR>
+    endif
+
 " #################   Others   ######################
+
+	" Shortcut to rapidly toggle `set list`
+	nmap <leader>l :set list!<CR>
 
     " Search mappings: These will make it so that going to the next one in a
     " search will center on the line it's found in.
@@ -206,6 +257,18 @@
 
     " switch higlight no matter the previous state
     noremap <F4> :set hlsearch! hlsearch?<cr>
+
+    " toggle paste mode. (disable autoindent etc...)
+    set pastetoggle=<F2>
+
+    " No no no....
+    map <up> <nop>
+    map <down> <nop>
+    map <left> <nop>
+    map <right> <nop>
+
+    " w!! force le sudo sur le fichier readonly
+    cmap w!! w !sudo tee % >/dev/null
 
 " ###################################################
 " ################   AUTO-CMDs   ####################
@@ -252,3 +315,17 @@
         au InsertEnter * :set listchars-=trail:⌴
         au InsertLeave * :set listchars+=trail:⌴
     augroup END
+
+    " Tabularize: Funky function from Tim Pope
+    inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+
+    function! s:align()
+      let p = '^\s*|\s.*\s|\s*$'
+      if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+        let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+        let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+        Tabularize/|/l1
+        normal! 0
+        call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+      endif
+    endfunction
