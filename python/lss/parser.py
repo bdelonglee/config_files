@@ -1,143 +1,241 @@
+#!/usr/bin/python
+
 import argparse
+import os, os.path, sys
 
 
-# # parser.add_argument('-f', action="store_true", default=False)
-# # parser.add_argument('-b', action="store", dest="b")
-# parser.add_argument('-c', action="store", dest="c", type=int)
-# parser.add_argument('--noarg', action="store_true", default=False)
-# parser.add_argument('--witharg', action="store", dest="witharg")
-# parser.add_argument('--witharg2', action="store", dest="witharg2", type=int)
+# =================================================================
+# SEQUENCE CLASS
 
-# # # Non-optionnal args
-# # parser.add_argument('count', action="store", type=int)
-# # parser.add_argument('units', action="store")
+class Sequence():
+    """
+    Sequence Object
+    """
 
-# # Examples 
-# parser.add_argument('-s', action='store', dest='simple_value',
-#                     help='Store a simple value')
+    def __init__(self, path):
+        self.type             = ""
+        self.name             = ""
+        self.revision         = ""
+        self.padding          = ""
+        self.start_frame      = ""
+        self.end_frame        = ""
+        self.step             = ""
+        self.missing_frames   = []
+        self.size             = ""
 
-# # parser.add_argument('-c', action='store_const', dest='constant_value',
-# #                     const='value-to-store',
-# #                     help='Store a constant value')
+        self.stereo           = False
+        self.left_eye         = ""
+        self.right_eye        = ""
 
-# parser.add_argument('-t', action='store_true', default=False,
-#                     dest='boolean_switch',
-#                     help='Set a switch to true')
-# parser.add_argument('-f', action='store_false', default=False,
-#                     dest='boolean_switch',
-#                     help='Set a switch to false')
+        self.camera           = ""
+        self.show             = ""
+        self.sequence         = ""
+        self.shot             = ""
+        self.department       = ""
 
-# # parser.add_argument('-a', action='append', dest='collection',
-# #                     default=[],
-# #                     help='Add repeated values to a list',
-# #                     )
+        self.software         = ""
+        self.colorspace       = ""
+        self.source_file      = ""
+        self.resolution       = []
 
-# parser.add_argument('-A', action='append_const', dest='const_collection',
-#                     const='value-1-to-append',
-#                     default=[],
-#                     help='Add different values to list')
-# parser.add_argument('-B', action='append_const', dest='const_collection',
-#                     const='value-2-to-append',
-#                     help='Add different values to list')
+        self.resumable        = ""
 
-# parser.add_argument('--version', action='version', version='%(prog)s 1.0')
+        self.analyse()
 
-# # Exclusive Options
-# group = parser.add_mutually_exclusive_group()
-# group.add_argument('-a', action='store_true')
-# group.add_argument('-b', action='store_true')
+    def analyser(self):
+        pass
+
+class Sequence_bundle():
+    """
+    Group Sequences with AOV
+    """
+    pass
+
+# =================================================================
+def get_path(path_list, recursive, max_depth):
+    """
+    Return a path list based on input path_list, recursive (on or off) and depth.
+    if not return current directory.
+    """
+
+    # First: Check the path_list
+    safe_list = []
+    
+    for elem in path_list:
+        if not os.path.isdir(elem):
+            print "--------------------------"
+            print "OPTION --path"
+            print elem
+            print ">>> Does not exist!"
+            print "--------------------------"
+            sys.exit(0)
+        else:
+            elem = elem.rstrip(os.path.sep)
+
+        safe_list.append(elem)
+    safe_list.sort()
+
+    # Recursive and Max Depth
+    if recursive:
+        full_list = []
+        for elem in safe_list:
+            num_sep = elem.count(os.path.sep)
+            for root, dirs, files in os.walk(elem):
+                num_sep_this = root.count(os.path.sep)
+                if num_sep + max_depth <= num_sep_this:
+                    del dirs[:]
+
+                full_list.append(root) 
+
+    # Return
+    if not recursive:
+        return safe_list
+    else :
+        full_list.sort()
+        return full_list
 
 
-# print args.c
+# =================================================================
+def check_extensions(extensions):
+    """
+    Sanity check for extensions list.
+    strip "."
+    """
 
-# --------------------------------------------------------------------------------
+    safe_list = []
+    for ext in extensions:
+        safeExt = ext.strip('.')
+        safe_list.append(safeExt.lower())
+
+    return safe_list
 
 
-def lss(extensions, fullpath, recursive, rvPlay, missing_frames, path_list):
+# =================================================================
+def lss(recursive, max_depth, path_list, 
+        extensions, search,
+        fullpath, missing_frames,
+        rv_play, statistics, output_file, launch_rv):
     """
     Main Core
     """
-    if extensions:
-        print extensions
-    if fullpath:
-        print fullpath
+
+    path_list       = get_path(path_list, recursive, max_depth)
+    extensions_list = check_extensions(extensions)
+
     if recursive:
+        print 'recursive '
         print recursive
-    if rvPlay:
-        print rvPlay
-    if missing_frames:
-        print missing_frames
+        print '--------------'
+    if max_depth:
+        print 'max_depth '
+        print max_depth
+        print '--------------'
     if path_list:
-        for elem in path_list:
-            print elem
+        print 'path_list '
+        print path_list
+        print '--------------'
+    if extensions:
+        print 'extensions'
+        print extensions_list
+        print '--------------'
+    if fullpath:
+        print 'fullpath'
+        print fullpath
+        print '--------------'
+    if missing_frames:
+        print 'missing_frames'
+        print missing_frames
+        print '--------------'
+    if rv_play:
+        print 'rv_play'
+        print rv_play
+        print '--------------'
+    if search:
+        print 'search'
+        print search
+        print '--------------'
+    if statistics:
+        print 'statistics'
+        print statistics
+        print '--------------'
+    if output_file:
+        print 'output_file'
+        print output_file
+        print '--------------'
+    if launch_rv:
+        print 'launch_rv'
+        print launch_rv
 
 
-
+# =================================================================
 def lss_parser_options():
     """
     Command options for lss
     """
 
-    parser = argparse.ArgumentParser(description='LSS: LiSt Sequences tool')
+    parser = argparse.ArgumentParser(prog='lss', description='LSS: LiSt Sequences tool')
 
     # Parsing Options
     parser.add_argument('-r', '--recursive',
                         action  = 'store_true',
                         default = False,
                         dest    = 'recursive',
-                        help    = 'recursive search. search into subdirectories')
+                        help    = 'Recursive search. search into subdirectories')
 
     parser.add_argument('-d', '--depth',
                         action  = 'store',
                         default = 2,
                         type    = int,
                         dest    = 'max_depth',
-                        help    = 'max depth level for subdirectories.\
-                                    requires -r option.')
+                        help    = 'Max depth level for subdirectories.\
+                                    requires -r option. Ex: lss -r -d 4')
 
     parser.add_argument('--path', 
                         action  = 'append',
-                        nargs   = '*',
                         default = [],
                         dest    = 'path_list',
-                        help    = 'list of paths to search for sequences. \
-                                    Ex:  --path /shows/dwn/vj/0060  /shows/got7 \
-                                    ~/Documents')
+                        help    = 'Path to search for sequences. Flag can be added multiple times.\
+                                    Ex:  --path /shows/dwn/vj/0060  --path /shows/got7 \
+                                    --path ~/Documents')
 
     parser.add_argument('-e', '--extension', 
                         action  = 'append',
-                        nargs   = '*',
                         default = [],
                         dest    = 'extensions',
-                        help    = 'List of extensions to search for. \
-                                    Ex:  -e exr  jpg  tif')
+                        help    = 'Extensions to search for. Flag can be added multiple times.\
+                                    Ex:  -e exr  -e jpg  -e tif')
 
     # Print Options
     parser.add_argument('-f', '--fullpath', 
                         action  = 'store_true',
                         default = False,
                         dest    = 'fullpath',
-                        help    = 'pint the fullpath')
+                        help    = 'Print the fullpath for found sequences.')
 
     parser.add_argument('-p', '--play', 
                         action  = 'store_true',
                         default = False,
-                        dest    = 'rvPlay',
-                        help    = 'print a Play command for RV')
+                        dest    = 'rv_play',
+                        help    = 'Print a Play command for RV')
 
     parser.add_argument('-m', '--missing-frames', 
                         action  = 'store_true',
                         default = False,
-                        dest    = 'missingFrames',
-                        help    = 'print the missing frames')
+                        dest    = 'missing_frames',
+                        help    = 'Print the missing frames')
 
     parser.add_argument('-s', '--search',
-                        action  = 'store',
+                        action  = 'append',
                         nargs   = '*',
-                        default = False,
+                        default = [],
                         dest    = 'search',
                         help    = 'list of words to look for in the image name. \
-                                Ex: -s beauty  indirect_specular')
+                                You can search for a beauty pass v018 with: \
+                                Ex: -s beauty  v018 \
+                                If you want to search differents sequences: \
+                                Ex: -s beauty v018 -s specular v023 \
+                                will search for sequences containing \"beauty\" AND \"v018\" \
+                                OR containing \"specular\" AND \"v023\"')
     
     parser.add_argument('--statistics',
                         action  = 'store_true',
@@ -163,9 +261,21 @@ def lss_parser_options():
     args = parser.parse_args()
     return args
 
+
+# =================================================================
 if __name__ == "__main__" :
     args = lss_parser_options()
 
-    lss(args.extensions, args.fullpath, args.recursive, args.rvPlay, args.missingFrames, args.path_list)
+    lss(args.recursive,
+        args.max_depth, 
+        args.path_list,
+        args.extensions,
+        args.fullpath,
+        args.missing_frames, 
+        args.rv_play, 
+        args.search,
+        args.statistics,
+        args.output_file,
+        args.launch_rv)
 
 
