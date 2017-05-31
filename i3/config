@@ -1,0 +1,704 @@
+
+
+###########################################################################
+###########################  I3 CONFIG FILE  ##############################
+###########################################################################
+#
+# Written to work on Linux Mint 18 KDE, 05-2017
+#
+
+
+# KEY DEFINITIONS
+
+# $Mod = WINDOWS key or Super key or Mod4
+# Mod1 = ALT key
+# Control = CTRL key
+# Shift = SHIFT key
+# Escape = ESCAPE key
+# Return = ENTER or RETURN key
+# Pause = PAUSE key
+# Print = PRINT key
+# Tab = TAB key
+
+###########################################################################
+#########################    GLOBAL SETTINGS   ############################
+###########################################################################
+
+# All personal preferences are mentioned below the title personal settings
+# Here are all the standard i3 settings 
+
+# Mod4 = windows key on keyboard or super key
+# Alt key is Mod1 if you want to change the $mod key
+set $mod Mod4
+
+# VARIABLES
+set $term konsole --hide-menubar 
+set $browser firefox
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# Basic tile creation
+bindsym $mod+Return exec $term;focus
+bindsym $mod+Shift+Return exec $term -e tmux -2
+
+###########################################################################
+####################    KEYBOARD and MOUSE    #############################
+###########################################################################
+
+# QWERTY US International
+exec setxkbmap -layout us -variant altgr-intl -option nodeadkeys
+
+# get the mouse out of the way with unclutter
+exec unclutter 
+
+# mouse settings
+# The middle button over a titlebar kills the window
+# bindsym --release button2 kill
+
+# The middle button and a modifer over any part of the window kills the window
+# bindsym --whole-window $mod+button2 kill
+
+# The right button toggles floating
+# bindsym button3 floating toggle
+# bindsym $mod+button1 floating toggle
+
+# The side buttons move the window around
+# bindsym button9 move left
+# bindsym button8 move right
+
+###########################################################################
+##########################   WORKSPACES   #################################
+###########################################################################
+
+set $ws1 "1:Main"
+set $ws2 "2:Term"
+set $ws3 "3:Vim"
+set $ws4 "4:"
+set $ws5 "5:"
+set $ws6 "6:"
+set $ws7 "7:"
+set $ws8 "8:"
+set $ws9 "9:"
+set $ws10 "10:Spotify"
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+###########################################################################
+##############################   FONTS   ##################################
+###########################################################################
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+# font pango:System San Fransisco Display 12
+
+# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+# font -misc-fixed-bold-r-normal-*-15-140-75-75-c-90-iso10646-1
+font pango:DejaVu Sans Mono 12
+# font pango:DejaVu Sans Mono, Terminus Bold Semi-Condensed 11
+# font pango:Droid Sans Mono Dotted 12
+# font pango:hermit 12
+# font pango:Inconsolata 13
+# font pango:monospace 12
+# font pango:SourceCodePro-SemiBold 11
+# font pango:Source Code Pro for Powerline, FontAwesome Regular, Icons 9
+# font pango:Terminus 14px
+# font pango:UbuntuMono-regular 12
+# from ttf-chromeos-fonts
+# font pango:Cousine 13
+# font pango:Arimo 11
+# font pango:Sans 13 
+# font pango:Noto Mono Regular 13
+# font pango:DroidSansMono 13
+# font pango:Noto Mono Regular 13
+
+
+###########################################################################
+##########################   DUAL SCREEN   ################################
+###########################################################################
+
+# setting variables for later use
+# use xrandr to know the names of your monitors
+# use this line to tell which monitor is on the right
+# xrandr --output DVI-I-2 --right-of DVI-I-1 --auto
+
+# my current setup
+## set $firstMonitor DVI-I-1
+## set $secondMonitor DVI-I-2
+
+#set $firstMonitor DVI-I-2
+#set $secondMonitor VGA-0
+
+#set $firstMonitor DVI-I-2
+#set $secondMonitor DVI-I-3
+
+#set $firstMonitor DVI-0
+#set $secondMonitor DVI-1
+
+workspace $ws1 output $firstMonitor
+workspace $ws2 output $firstMonitor
+workspace $ws3 output $firstMonitor
+workspace $ws10 output $firstMonitor
+
+###########################################################################
+######################   FOCUS AND MOVE   #################################
+###########################################################################
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Works for Floating_windows as well
+# move focused window
+bindsym $mod+Shift+h move left 50
+bindsym $mod+Shift+j move down 50
+bindsym $mod+Shift+k move up 50
+bindsym $mod+Shift+l move right 50
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+
+###########################################################################
+##########################   RESIZE   #####################################
+###########################################################################
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym h resize shrink width 15 px or 15 ppt
+        bindsym j resize grow height 15 px or 15 ppt
+        bindsym k resize shrink height 15 px or 15 ppt
+        bindsym l resize grow width 15 px or 15 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 15 px or 15 ppt
+        bindsym Right resize grow width 15 px or 15 ppt
+        bindsym Up resize shrink height 15 px or 15 ppt
+        bindsym Down resize grow height 15 px or 15 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# bindsym $mod+Ctrl+Left    resize shrink width 10 px or 10 ppt
+# bindsym $mod+Ctrl+Down    resize shrink height 10 px or 10 ppt
+# bindsym $mod+Ctrl+Up      resize grow height 10 px or 10 ppt
+# bindsym $mod+Ctrl+Right   resize grow width 10 px or 10 ppt
+
+
+###########################################################################
+####################   TILING PARAMETER   #################################
+###########################################################################
+
+# orientation for new workspaces 
+default_orientation horizontal
+
+# split in horizontal orientation
+bindsym $mod+p split h
+
+# split in vertical orientation
+bindsym $mod+o split v
+
+# toggle split
+bindsym $mod+i split toggle
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+bindsym F11    fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed
+bindsym $mod+e layout toggle split
+
+# focus the parent container
+bindsym $mod+q focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+# next/previous workspace
+bindsym Mod1+Tab workspace next
+bindsym Mod1+Shift+Tab workspace prev
+bindsym $mod+Tab workspace back_and_forth
+
+# navigate workspaces next / previous
+bindsym Mod1+Ctrl+Right workspace next
+bindsym Mod1+Ctrl+Left workspace prev
+# Alternative VIM Style
+bindsym $mod+Ctrl+l workspace next
+bindsym $mod+Ctrl+h workspace prev
+
+# switch to workspace with urgent window automatically
+for_window [urgent=latest] focus
+
+# bar toggle, hide or show 
+bindsym $mod+b bar mode toggle
+
+# Show Title-Border for current window
+hide_edge_borders both
+bindsym $mod+shift+b exec i3-msg border toggle
+
+###########################################################################
+#################   FLOATING WINDOWS LIST    ##############################
+###########################################################################
+
+#floating enabled from some programs
+for_window [class="Gnome-disks"] floating enable
+for_window [class="Kcalc"] floating enable
+for_window [class="^Skype$"] floating enable
+for_window [class="^Gnome-font-viewer$"] floating enable
+#for_window [class="^Thunar$"] floating enable
+for_window [class="^Gpick$"] floating enable
+#for_window [class="^Vlc$"] floating enable
+#for_window [class="^Spotify$"] floating enable workspace 10
+#for_window [instance="gimp"] floating enable
+for_window [window_role="^gimp-toolbox-color-dialog$"] floating enable
+for_window [instance="variety"] floating enable
+for_window [class="Gnome-system-monitor"] floating enable
+for_window [class="Brasero"] floating enable
+for_window [class="Xfburn"] floating enable
+for_window [class="Xfce4-appfinder"] floating enable
+for_window [class="Wine"] floating enable
+for_window [class="Pavucontrol"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="^Preferences$"] floating enable
+for_window [window_role="setup"] floating enable
+for_window [title="^Terminator Preferences$"] floating enable
+for_window [class="Font-manager"] floating enable
+for_window [class="System-config-printer.py"] floating enable
+for_window [class="Nitrogen"] floating enable
+for_window [title="Copying"] floating enable  
+for_window [title="Deleting"] floating enable  
+for_window [title="Moving"] floating enable
+for_window [class="Unetbootin.elf"] floating enable
+for_window [class="Galculator"] floating enable
+for_window [class="Usb-creator-gtk"] floating enable
+for_window [class="MintUpdate.py"] floating enable
+#for_window [class="Bleachbit"] floating enable
+for_window [class="Hexchat"] floating disable
+
+#Popups during fullscreen mode
+popup_during_fullscreen smart
+
+###########################################################################
+######################   MENU LAUNCHER   ##################################
+###########################################################################
+
+# start dmenu (a program launcher)
+bindsym $mod+d exec dmenu_run -fn 'System San Fransico Display:bold:pixelsize=18' 
+# bindsym $mod+d exec rofi -show run -lines 1 -eh 2 -width 100 -padding 10 -opacity "85" -bw 0  -font "System San Fransisco Display 18"
+
+# start alternative menu j4-dmenu based on desktop files in /usr/share/applications
+bindsym $mod+shift+d exec j4-dmenu-desktop --dmenu="dmenu -fn 'System San Fransisco Display:bold:pixelsize=18' -nb '#fdf6e3' -nf '#586c75' -sf '#fdf6e3' -sb '#FFAF00'"
+#bindsym $mod+shift+d exec j4-dmenu-desktop --dmenu="dmenu -fn 'DroidSansMono:bold:pixelsize=16' -nb '#fdf6e3' -nf '#586c75' -sf '#fdf6e3' -sb '#FFAF00'"
+
+# start up i3-dmenu-desktop
+#bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
+
+###########################################################################
+#################   REFRESH RESTART LOG OUT   #############################
+###########################################################################
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+#bindsym $mod1+Pause mode "$mode_system"
+bindsym Mod1+Ctrl+BackSpace mode "$mode_system"
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id ~/.config/i3/i3exit.sh lock, mode "default"
+    bindsym e exec --no-startup-id ~/.config/i3/i3exit.sh logout, mode "default"
+    bindsym s exec --no-startup-id ~/.config/i3/i3exit.sh suspend, mode "default"
+    bindsym h exec --no-startup-id ~/.config/i3/i3exit.sh hibernate, mode "default"
+    bindsym r exec --no-startup-id ~/.config/i3/i3exit.sh reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id ~/.config/i3/i3exit.sh shutdown, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+
+###########################################################################
+########################   ASSIGNATION   ##################################
+###########################################################################
+
+assign [class="Firefox"]          → $ws1
+assign [class="Konsole"]          → $ws2
+assign [class="dolphin"]          → $ws3
+assign [class="Spotify"]          → $ws10
+#fix for spotify not moving to workspace 10
+for_window [class="Spotify"] move to workspace $ws10
+
+###########################################################################
+######################    STARTUP EXECUTION    ############################
+###########################################################################
+
+# SYSTEM APPLICATION
+
+# num lock activated at startup
+exec_always --no-startup-id numlockx on
+
+exec --no-startup-id nm-applet
+#exec dropbox start
+
+# For wallpapers management
+exec variety
+
+exec mintupdate-launcher
+#exec volti
+exec pasystray
+exec blueberry-tray
+
+# USER APPLICATIONS
+
+exec firefox
+for_window [class="Firefox"] focus
+exec spotify
+for_window [class="Spotify"] focus
+exec ~/.config/i3/start-conkys.sh
+#exec dunst -config ~/.config/i3/dunstrc
+
+###########################################################################
+##################   SHORTCUTS APPLICATION    #############################
+###########################################################################
+
+#bindsym $mod+Shift+Return exec nemo --no-desktop; workspace 8;focus
+#bindsym control+mod1+f exec firefox;workspace 1; focus
+bindsym $mod+F1 exec firefox;workspace $ws1;focus
+bindsym $mod+F2 exec konsole --hide-menubar; workspace $ws2;focus
+bindsym $mod+F3 exec $term -e tmux -2; workspace $ws3;focus
+bindsym $mod+F4 exec $term -e ranger; workspace $ws3;focus
+bindsym $mod+F5 exec dolphin; workspace $ws3;focus
+bindsym $mod+F12 exec spotify;workspace $ws10;focus
+#bindsym control+mod1+w exec subl;workspace 2;focus
+#bindsym $mod+F2 exec subl;workspace 2;focus
+#bindsym control+mod1+i exec inkscape;workspace 3;focus
+#bindsym $mod+F3 exec inkscape;workspace 3;focus
+#bindsym control+mod1+g exec gimp;workspace 4;focus
+#bindsym $mod+F4 exec gimp;workspace 4;focus
+#bindsym control+mod1+b exec nemo --no-desktop;workspace 8;focus
+#bindsym $mod+F8 exec nemo --no-desktop;workspace 8;focus
+#bindsym control+mod1+e exec evolution;workspace 9;focus
+#bindsym $mod+F9 exec evolution;workspace 9;focus
+#bindsym control+mod1+s exec spotify;workspace 10;focus
+#bindsym control+mod1+t exec terminator; focus
+#bindsym control+mod1+t exec gnome-terminal; focus
+#bindsym control+mod1+n exec cinnamon-settings
+
+
+###########################################################################
+#######################   SCREENSHOT    ###################################
+###########################################################################
+
+bindsym Print exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f ~/Pictures/'
+bindsym Control+Print exec gnome-screenshot -i
+
+
+###########################################################################
+#################    VARIETY for WALLPAPERS     ###########################
+###########################################################################
+
+#Variety keybindings
+# trash wallpaper
+bindsym mod1+t exec variety -t
+# next wallpaper
+bindsym mod1+n exec variety -n
+# previous wallpaper
+bindsym mod1+p exec variety -p
+# favorite wallpaper
+bindsym mod1+f exec variety -f
+
+
+###########################################################################
+#########################   AUDIO   #######################################
+###########################################################################
+
+bindsym XF86AudioRaiseVolume exec "amixer -D pulse sset Master '5%+'"
+bindsym XF86AudioLowerVolume exec "amixer -D pulse sset Master '5%-'"
+bindsym XF86AudioMute exec "amixer -D pulse set Master toggle"
+bindsym XF86AudioPlay exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause" 
+bindsym XF86AudioNext exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next" 
+bindsym XF86AudioPrev exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+bindsym XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
+
+
+###########################################################################
+#####################    SCRATCHPAD    ####################################
+###########################################################################
+
+exec --no-startup-id $term --name=dropdown -e tmux -2
+for_window [instance="dropdown"] floating enable;
+for_window [instance="dropdown"] move scratchpad; [instance="dropdown"] scratchpad show; move scratchpad
+bindsym $mod+u      [instance="dropdown"] scratchpad show      
+
+# move the currently focused window to the scratchpad
+# bindsym Mod1+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+# bindsym Mod1+minus scratchpad show
+
+
+###########################################################################
+#########################    BAR    #######################################
+###########################################################################
+
+bar {
+
+	# type status_command i3status without the config file and 
+    # you will get the standard i3status bar
+    # this is the standard statusbar with my personal settings
+	#status_command i3status -c ~/.config/i3/i3status.conf
+
+    # https://github.com/vivien/i3blocks
+    # another way to provide text in the statusbar
+    # step 10 of https://github.com/erikdubois/i3-on-Linux-Mint-18-Cinnamon/tree/master/installation
+    # put hastag in front if not installed
+    status_command i3blocks -c ~/.config/i3/i3blocks.conf
+
+    # You can also replace the istatus bar with a conky
+    # be sure to install conky
+    # step 10 folder conky
+    # font awesome should be installed script + font
+    # start-conky-i3statusbar.sh is started and conky will follow
+    # documentation : https://i3wm.org/docs/user-contributed/conky-i3bar.html
+    # conky configuration is in conky-i3statusbar
+	# status_command ~/.config/i3/start-conky-i3statusbar.sh
+
+	
+	height 25
+    workspace_buttons yes
+    
+#     colors {
+#             background #201f1f   
+#             statusline #201f1f  
+#             separator #666666
+#             #                     border  backgr. text
+#             focused_workspace     #a9a9a9 #920c0c #a9a9a9
+#             active_workspace      #a9a9a9 #5f676a #a9a9a9
+#             inactive_workspace    #a9a9a9 #5f676a #a9a9a9
+#             urgent_workspace      #4A4A4A #4A4A4A #a9a9a9
+#             }
+#     }
+    colors {
+            background  #262c32  
+            statusline  #8295a9    
+            separator   #a1b5cb  
+            #                     border  backgr. text
+            focused_workspace     #a9a9a9 #585d63 #d4dde8 
+            active_workspace      #1a1b1c #3a4046 #757e86 
+            inactive_workspace    #1a1b1c #3a4046 #757e86  
+            urgent_workspace      #a9a9a9 #7f1414 #d4dde8
+            }
+    }
+
+# DarkGrey background with white text - not focus grey background - black text
+# Windows decoration colors
+# # class                 border  backgr. text    indicator
+# client.placeholder      #242424 #242424 #242424
+# client.background       #242424 #242424 #242424
+# client.focused          #4A4A4A #4A4A4A #e5e5e5 #4A4A4A
+# client.unfocused        #222222 #222222 #aaaaaa #222222
+# client.focused_inactive #222222 #222222 #a9a9a9 #222222
+# client.urgent           #4A4A4A #4A4A4A #f7f7f7 #4A4A4A
+
+###########################################################################
+###################  I 3  G A P S  N E X T   ##############################
+###########################################################################
+
+# Settings for I3 next gap git
+# https://github.com/Airblader/i3
+
+for_window [class="^.*"] border pixel 2
+gaps inner 15
+gaps outer 5
+#smart_gaps on
+#smart_borders on
+
+# Reset Default Gaps
+bindsym $mod+Ctrl+r    gaps inner all set 15; gaps outer all set 5
+
+###########################################################################
+###################       I3 GAPS CHANGE     ##############################
+###########################################################################
+
+set $mode_gaps Gaps: (o) outer, (i) inner
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+        bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+###########################################################################
+###################       C O M P T O N      ##############################
+###########################################################################
+
+#if you want transparency on non-focused windows
+exec_always compton --config ~/.config/i3/compton.conf
+
+
+###########################################################################
+###################    BAR APPEARANCE ARCHIVE     #########################
+###########################################################################
+
+# Orange background with black text - not focus grey background - white text
+# Windows decoration colors
+# class                   border  backgr. text    indicator
+# client.background color         #222222
+# client.focused          #FFAF00 #FFAF00 #333333 #00AA00
+# client.unfocused        #222222 #222222 #aaaaaa #2e9ef4
+# client.focused_inactive #333333 #5f676a #ffffff #484e50
+# client.urgent           #2f343a #900000 #ffffff #900000
+
+
+# DarkGrey background with white text - not focus grey background - black text
+# Windows decoration colors
+# https://i3wm.org/docs/userguide.html#_changing_colors
+# client.background color
+# class                   border  backgr. text    indicator
+# client.focused          #4c7899 #285577 #ffffff #2e9ef4
+# client.focused_inactive #333333 #5f676a #ffffff #484e50
+# client.unfocused        #333333 #222222 #888888 #292d2e
+# client.urgent           #2f343a #900000 #ffffff #900000
+# client.placeholder      #000000 #0c0c0c #ffffff #000000
+
+#   colors {
+#            background #222222
+#            statusline #eeeeee
+#            separator #666666
+             #                  border  backgr. text
+#            focused_workspace  #4c7899 #285577 #ffffff
+#            active_workspace   #333333 #5f676a #ffffff
+#            inactive_workspace #333333 #222222 #888888
+#            urgent_workspace   #2f343a #900000 #ffffff
+#            }
+
+# Alternatives
+# BLue and grey Colors
+# https://github.com/Gravemind/ArchLinux/blob/master/.i3/config
+# class                   border  backgr. text    indicator
+# client.focused          #000000 #285577 #dddddd #0099ff
+# client.focused_inactive #000000 #333333 #888888 #484e50
+# client.unfocused        #000000 #000000 #555555 #292d2e
+# client.urgent           #2f343a #900000 #ffffff #900000
+
+# blue background with white text
+# Windows decoration colors
+# class                   border  backgr. text    indicator
+# client.background color         #222222
+# client.focused          #4c7899 #285577 #ffffff #2e9ef4
+# client.focused_inactive #333333 #5f676a #ffffff #484e50
+# client.unfocused        #333333 #222222 #888888 #292d2e
+# client.urgent           #2f343a #900000 #ffffff #900000
+
+# Blue-green background - orange text
+# Windows decoration colors
+# http://www.fastlinux.eu/_archiv/index.php?page=linux047
+# class                    border  backgr. text
+# client.focused           #2B6473 #2B6473 #FFA000
+# client.focused_inactive  #004050 #004050 #FFA000
+# client.unfocused         #004050 #004050 #cccccc 
+# client.urgent            #900000 #900000 #ffffff
+
+
+# Red background - black text
+# Windows decoration colors
+# https://github.com/Blueblur/dotfiles/blob/master/.i3/config
+# class                 border  backgr. text    indicator
+# client.focused          #d64937 #d64937 #2D2D2D #2e9ef4
+# client.focused_inactive #2d2d2d #2d2d2d #dcdcdc #484e50
+# client.unfocused        #2D2D2D #2d2d2d #dcdcdc #292d2e
+# client.urgent           #2D2D2D #2D2D2D #dcdcdc #900000
+
+
