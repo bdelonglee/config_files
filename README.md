@@ -1,6 +1,0 @@
-# config_files
-
-########################################
-# my config files for Tmux, Vim, Bash etc...
-# Use at your own risks...
-########################################
