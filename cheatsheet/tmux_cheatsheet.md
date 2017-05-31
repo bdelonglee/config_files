@@ -2,7 +2,8 @@ My Tmux Cheatsheet
 ==================
 
 
-as configured in my .tmux_conf (https://github.com/bdelonglee/config_files/tmux/tmux_config/.tmux.conf)
+as configured in my .tmux_conf (https://github.com/bdelonglee/config_files/blob/master/dotfiles/.tmux.conf)
+
 
 ## Sessions 
 
